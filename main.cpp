@@ -6,7 +6,6 @@
 #include <vector>
 #include <algorithm>
 
-
 // Sets's Game Process Variable
 CHackProcess  fProcess;
 
@@ -41,10 +40,7 @@ bool b_BunnyHopEnabled = false;
 bool b_TriggerBotEnabled = false;
 bool b_AimbotEnabled = false;
 
-
 #define RIGHT_MOUSE 0x02
-
-
 
 // ESP  GDI
 
@@ -59,13 +55,14 @@ COLORREF TextCOLOR;
 HWND TargetWnd;
 HWND Handle;
 DWORD DwProcId;
-//We receive the 2-D Coordinates the colour and the device we want to use to draw those colours with
+
+//Receive the 2-D Coordinates the colour and the device we want to use to draw those colours with
 //HDC so we know where to draw and brush because we need it to draw
 void DrawFilledRect(int x, int y, int w, int h)
 {
-	//We create our rectangle to draw on screen
+	//Create our rectangle to draw on screen
 	RECT rect = { x, y, x + w, y + h };
-	//We clear that portion of the screen and display our rectangle
+	//Clear that portion of the screen and display our rectangle
 	FillRect(HDC_Desktop, &rect, EnemyBrush);
 }
 
@@ -93,7 +90,7 @@ void SetupDrawing(HDC hDesktop, HWND handle)
 	TextCOLOR = RGB(0, 255, 0);
 }
 
-//Here is where we draw our line from point A to Point B
+//Draw our line from point A to Point B
 void DrawLine(float StartX, float StartY, float EndX, float EndY, COLORREF Pen)
 {
 	int a, b = 0;
@@ -126,16 +123,10 @@ void DrawString(int x, int y, COLORREF color, const char* text)
 }
 
 
-
-
-
-
-
-
-
-
-
-
+//
+// Draw code finished
+// Functionality code below
+//
 
 // Read Player Information
 struct MyPlayer_t
@@ -161,11 +152,8 @@ struct MyPlayer_t
 		ReadProcessMemory(fProcess.__HandleProcess, (PBYTE*)(CLocalPlayer + dw_health), &Health, sizeof(int), 0);
 		// Position
 		ReadProcessMemory(fProcess.__HandleProcess, (PBYTE*)(CLocalPlayer + dw_pos), &Position, sizeof(float[3]), 0);
-
-
 	}
 }MyPlayer;
-
 
 
 // Get's all players coords
@@ -183,7 +171,6 @@ struct TargetList_t
 	{
 		Distance = Get3dDistance(myCoords[0], myCoords[1], myCoords[2],
 								EnemyCoords[0], EnemyCoords[1], EnemyCoords[2]);
-
 		Angle[0] = angle[0];
 		Angle[1] = angle[1];
 		Angle[2] = angle[2];
@@ -199,6 +186,7 @@ struct TargetList_t
 	}
 };
 
+
 // Sorting
 struct CompareTargetEnArray
 {
@@ -207,7 +195,6 @@ struct CompareTargetEnArray
 		return lhs.Distance < rhs.Distance;
 	}
 };
-
 
 
 // World to screen calculation
@@ -233,7 +220,6 @@ void CalcAngle(float *src, float *dst, float *angles)
 }
 
 
-
 // Player Entity Base - Read Info
 struct PlayerList_t
 {
@@ -253,15 +239,8 @@ struct PlayerList_t
 		ReadProcessMemory(fProcess.__HandleProcess, (PBYTE*)(CBaseEntity + dw_health), &Health, sizeof(int), 0);
 		// Position
 		ReadProcessMemory(fProcess.__HandleProcess, (PBYTE*)(CBaseEntity + dw_pos), &Position, sizeof(float[3]), 0);
-
 	}
 }PlayerList[64];
-
-
-
-
-
-
 
 
 
@@ -302,15 +281,12 @@ void TriggerBot()
 
 
 
-
 void Aimbot()
 {
 	Count = 0;
 
-
 	TargetList_t *TargetList = new TargetList_t[NumOfPlayers];
 	int TargetLoop = 0;
-
 
 	for (int i = 0; i < NumOfPlayers; i++)
 	{
@@ -372,8 +348,6 @@ void Aimbot()
 			
 
 
-
-
 void BunnyHop()
 {
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
@@ -389,8 +363,6 @@ void BunnyHop()
 	}
 
 }
-
-
 
 
 // Hack Loop
